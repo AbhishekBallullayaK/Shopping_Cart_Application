@@ -9,6 +9,7 @@ var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var hbs = require('express-handlebars')
 var fileUpload = require('express-fileupload')
+var db = require('./config/connection')
 
 var app = express();
 
@@ -24,6 +25,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
 
+db.connect((err)=>{
+  if(err)
+    console.log("Connection Error"+err)
+  else
+    console.log("Database Connected to port 27017")
+})
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
